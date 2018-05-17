@@ -33,7 +33,7 @@ const bgFetchJob = await registration.backgroundFetch.fetch(id, requests, option
 * `options` - an object containing any of:
   * `icons` - A sequence of icon definitions, similar to [`icons` in the manifest spec](https://w3c.github.io/manifest/#icons-member).
   * `title` - Something descriptive to show in UI, such as "Uploading 'Holiday in Rome'" or "Downloading 'Catastrophe season 2 episode 1'".
-  * `downloadTotal` - A hint for the UI, so it can display progress before receiving all `Content-Length` headers, or if any are missing. This is in bytes, before transport compression. This is only a hint, the browser will disregard the value if/once it's found to be incorrect.
+  * `totalResourceBytes` - A hint for the UI, so it can display progress before receiving all `Content-Length` headers, or if any are missing. This is in bytes, before transport compression. This is only a hint, the browser will disregard the value if/once it's found to be incorrect.
   * `networkType` - "auto" or "avoid-cellular", defaults to "auto".
   * `powerStatus` - "auto" or "avoid-draining", defaults to "auto".
 
@@ -45,7 +45,7 @@ const bgFetchJob = await registration.backgroundFetch.fetch(id, requests, option
 * If there's already a registered background fetch job associated with `registration` identified by `id`.
 * Any of the requests have mode `no-cors`.
 * The browser fails to store the requests and their bodies.
-* `downloadTotal` suggests there isn't enough quota to complete the job.
+* `totalResourceBytes` suggests there isn't enough quota to complete the job.
 
 ## Getting an instance of a background fetch
 
@@ -57,10 +57,10 @@ const bgFetchJob = await registration.backgroundFetch.get(id);
 `bgFetchJob` has the following members:
 
 * `id` - identifier string.
-* `downloadTotal` - as provided.
+* `totalResourceBytes` - as provided.
 * `uploadTotal` - total bytes to send.
 * `uploadProgress` - bytes sent so far.
-* `downloadTotal` - as provided.
+* `totalResourceBytes` - as provided.
 * `downloadProgress` - bytes received so far.
 * `activeFetches` - provides access to the in-progress fetches.
 * `abort()` - abort the whole background fetch job. This returns a promise that resolves with a boolean, which is true if the operation successfully aborted.
@@ -257,7 +257,7 @@ addEventListener('push', event => {
           return self.registration.backgroundFetch.fetch(`podcast-${podcast.id}`, podcast.urls, {
             icons: podcast.icons,
             title: `Downloading ${podcast.showName} - ${podcast.episodeName}`,
-            downloadTotal: podcast.downloadTotal
+            totalResourceBytes: podcast.totalResourceBytes
           });
         });
 
@@ -358,7 +358,7 @@ addEventListener('fetch', event => {
     await self.registration.backgroundFetch.fetch(id, data.urls, {
       icons: data.icons,
       title: "Download level 20",
-      downloadTotal: data.downloadTotal
+      totalResourceBytes: data.totalResourceBytes
     });
   }
   catch {

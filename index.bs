@@ -254,7 +254,7 @@ interface BackgroundFetchManager {
 dictionary BackgroundFetchOptions {
   sequence<IconDefinition> icons = [];
   DOMString title = "";
-  unsigned long long downloadTotal = 0;
+  unsigned long long totalResourceBytes = 0;
 };
 
 // This is taken from https://w3c.github.io/manifest/#icons-member.
@@ -309,7 +309,7 @@ dictionary IconDefinition {
         : [=background fetch/records=]
         :: |records|.
         : [=background fetch/download total=]
-        :: |options|' `downloadTotal` member.
+        :: |options|' `totalResourceBytes` member.
         : [=background fetch/upload total=]
         :: |uploadTotal|.
         : [=background fetch/icons=]
@@ -363,7 +363,7 @@ interface BackgroundFetchRegistration : EventTarget {
   readonly attribute DOMString id;
   readonly attribute unsigned long long uploadTotal;
   readonly attribute unsigned long long uploaded;
-  readonly attribute unsigned long long downloadTotal;
+  readonly attribute unsigned long long totalResourceBytes;
   readonly attribute unsigned long long downloaded;
   readonly attribute BackgroundFetchActiveFetches activeFetches;
 
@@ -395,13 +395,13 @@ interface BackgroundFetchActiveFetch : BackgroundFetchFetch {
 
   A {{BackgroundFetchRegistration}} instance has an associated <dfn>downloaded</dfn> (a number), initially 0.
 
-  A {{BackgroundFetchRegistration}} instance has an associated <dfn>id</dfn>, <dfn>uploadTotal</dfn>, and <dfn>downloadTotal</dfn>, which are copied from the [=BackgroundFetchRegistration/background fetch=] upon instantiation.
+  A {{BackgroundFetchRegistration}} instance has an associated <dfn>id</dfn>, <dfn>uploadTotal</dfn>, and <dfn>totalResourceBytes</dfn>, which are copied from the [=BackgroundFetchRegistration/background fetch=] upon instantiation.
 
   The <dfn attribute>id</dfn> attribute's getter must return the [=context object=]'s [=BackgroundFetchRegistration/id=].
 
   The <dfn attribute>uploadTotal</dfn> attribute's getter must return the [=context object=]'s [=BackgroundFetchRegistration/uploadTotal=].
 
-  The <dfn attribute>downloadTotal</dfn> attribute's getter must return the [=context object=]'s [=BackgroundFetchRegistration/downloadTotal=].
+  The <dfn attribute>totalResourceBytes</dfn> attribute's getter must return the [=context object=]'s [=BackgroundFetchRegistration/totalResourceBytes=].
 
   The <dfn attribute>uploaded</dfn> attribute's getter must return TODO.
 
